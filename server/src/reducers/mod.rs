@@ -1,0 +1,15 @@
+pub mod auth;
+pub mod server;
+pub mod channel;
+pub mod message;
+pub mod thread;
+pub mod member;
+pub mod dm;
+pub mod presence;
+pub mod read_state;
+pub mod reaction;
+pub mod invite;
+pub mod badge;
+pub mod friend;
+pub mod bot;
+pub mod emoji;

@@ -1,0 +1,78 @@
+services:
+  spacetimedb:
+    image: clockworklabs/spacetime:v2.0.5
+    command: ["start"]
+    ports:
+      - "3020:3000"
+    volumes:
+      - stdb-data:/home/spacetime/.local/share/spacetime/data
+      - stdb-keys:/etc/spacetimedb
+      - ./server:/module:ro
+    environment:
+      - SPACETIMEDB_LOG_LEVEL=info
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://127.0.0.1:3000/ || [ $? -eq 22 ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # Production frontend (built, port 3022)
+  nuxt-prod:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3022:3000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+    depends_on:
+      spacetimedb:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # API service (Fastify — messages, uploads, search — port 3025)
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "3025:3000"
+    env_file:
+      - ./api/.env
+    environment:
+      - PORT=3000
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # FlaviBot
+  bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    env_file:
+      - ./bot/.env
+    environment:
+      - SPACETIMEDB_URI=ws://spacetimedb:3000
+    volumes:
+      - bot-data:/data
+    depends_on:
+      spacetimedb:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  stdb-data:
+  stdb-keys:
+  bot-data:
+
+networks:
+  app-network:

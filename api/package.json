@@ -1,0 +1,20 @@
+{
+  "name": "discord-clone-upload",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx tsx index.ts",
+    "start": "node --loader ts-node/esm index.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@fastify/cors": "^11.0.0",
+    "@fastify/multipart": "^9.0.0",
+    "fastify": "^5.0.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

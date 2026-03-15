@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Nuxt
+.nuxt/
+.output/
+dist/
+
+# Rust
+server/target/
+
+# SpacetimeDB
+client/module_bindings/
+
+# Environment / Secrets
+.env
+.env.local
+.env.*.local
+.env.publish
+api/.env
+bot/.env
+
+# SpacetimeDB keys & auth
+.spacetime-id_ecdsa
+.spacetime-id_ecdsa.pub
+.spacetime-cli.toml
+
+# Backups
+scripts/backups/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

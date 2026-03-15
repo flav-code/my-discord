@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+:root {
+  --dc-bg-primary: #36393f;
+  --dc-bg-secondary: #2f3136;
+  --dc-bg-tertiary: #202225;
+  --dc-bg-chat-input: #40444b;
+  --dc-text-primary: #dcddde;
+  --dc-text-secondary: #b9bbbe;
+  --dc-text-muted: #72767d;
+  --dc-brand: #947cea;
+  --dc-brand-hover: #7b63c9;
+  --dc-green: #3ba55d;
+  --dc-red: #ed4245;
+  --dc-yellow: #faa61a;
+  --dc-border: #42454a;
+}
+
+body {
+  background-color: var(--dc-bg-primary);
+  color: var(--dc-text-primary);
+  font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--dc-bg-secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--dc-bg-tertiary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1a1b1e;
+}
+
+/* Buttons should always show pointer cursor */
+button, [role="button"], a {
+  cursor: pointer;
+}

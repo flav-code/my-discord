@@ -1,0 +1,23 @@
+{
+  "name": "discord-clone-client",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^3.0.0",
+    "@pinia/nuxt": "^0.9.0",
+    "pinia": "^2.3.0",
+    "spacetimedb": "^2.0.4",
+    "vue-draggable-plus": "^0.6.1"
+  },
+  "devDependencies": {
+    "@nuxt/icon": "^1.12.0",
+    "nuxt": "^4.4.2",
+    "typescript": "^5.8.0"
+  }
+}
