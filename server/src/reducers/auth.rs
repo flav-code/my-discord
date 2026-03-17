@@ -277,11 +277,27 @@ pub fn recover_account(ctx: &ReducerContext, username: String, password: String)
         return Err("You already have a profile. Cannot recover another account.".into());
     }
 
-    // Verify password (required for recovery)
-    let auth = ctx.db.user_auth().identity().find(primary_identity)
-        .ok_or("Account has no password set — cannot recover. Ask the owner to set a password first.")?;
-    if !verify_and_upgrade_password(ctx, &auth, &password)? {
-        return Err("Incorrect password".into());
+    // Verify password or set initial password for migrated accounts
+    if let Some(auth) = ctx.db.user_auth().identity().find(primary_identity) {
+        if !verify_and_upgrade_password(ctx, &auth, &password)? {
+            return Err("Incorrect password".into());
+        }
+    } else {
+        // No password set (migrated account) — set the provided password as their new password
+        if password.len() < 8 || password.len() > 128 {
+            return Err("Password must be 8-128 characters".into());
+        }
+        let salt = generate_salt(ctx);
+        let hash = hash_password_v1(&password, &salt);
+        ctx.db.user_auth().insert(UserAuth {
+            identity: primary_identity,
+            password_hash: hash,
+        });
+        ctx.db.user_auth_salt().insert(UserAuthSalt {
+            identity: primary_identity,
+            salt,
+            hash_version: 1,
+        });
     }
 
     // Link this identity to the primary identity (no migration needed!)
